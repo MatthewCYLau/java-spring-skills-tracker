@@ -22,16 +22,16 @@ public class FakeUserDaoService implements UserDao {
 
     @Override
     public Optional<User> selectUserByUsername(String username) {
-        return getApplicationUsers()
+        return getUsers()
                 .stream()
                 .filter(user -> username.equals(user.getUsername()))
                 .findFirst();
     }
 
-    private List<User> getApplicationUsers() {
-        List<User> applicationUsers = Lists.newArrayList(
+    private List<User> getUsers() {
+        List<User> users = Lists.newArrayList(
                 new User(
-                        "userone",
+                        "basic",
                         passwordEncoder.encode("password"),
                         USER.getGrantedAuthorities(),
                         true,
@@ -40,7 +40,7 @@ public class FakeUserDaoService implements UserDao {
                         true
                 ),
                 new User(
-                        "usertwo",
+                        "admin",
                         passwordEncoder.encode("password"),
                         ADMIN.getGrantedAuthorities(),
                         true,
@@ -50,7 +50,7 @@ public class FakeUserDaoService implements UserDao {
                 )
         );
 
-        return applicationUsers;
+        return users;
     }
 
 }
