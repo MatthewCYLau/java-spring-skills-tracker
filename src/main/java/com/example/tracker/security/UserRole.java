@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum UserRole {
-    USER(Sets.newHashSet()),
+    BASIC_USER(Sets.newHashSet()),
     ADMIN(Sets.newHashSet());
 
     private final Set<UserPermission> permissions;

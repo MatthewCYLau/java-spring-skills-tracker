@@ -31,9 +31,9 @@ public class FakeUserDaoService implements UserDao {
     private List<User> getUsers() {
         List<User> users = Lists.newArrayList(
                 new User(
-                        "basic",
+                        "basic_user",
                         passwordEncoder.encode("password"),
-                        USER.getGrantedAuthorities(),
+                        BASIC_USER.getGrantedAuthorities(),
                         true,
                         true,
                         true,

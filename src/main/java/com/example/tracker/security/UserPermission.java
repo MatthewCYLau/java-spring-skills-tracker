@@ -2,10 +2,8 @@ package com.example.tracker.security;
 
 public enum UserPermission {
 
-    STUDENT_READ("student:read"),
-    STUDENT_WRITE("student:write"),
-    COURSE_READ("course:read"),
-    COURSE_WRITE("course:write");
+    BASIC_USER_READ("basic_user:read"),
+    BASIC_USER_WRITE("basic_user:write");
 
     private final String permission;
 
