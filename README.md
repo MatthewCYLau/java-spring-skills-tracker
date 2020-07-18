@@ -2,12 +2,13 @@
 
 ## Run/Build Locally
 
-With Maven, run `maven clean install` followed by `maven spring-boot:run`
+- In project root directory, run `docker-compose up` to start a PostgreSQL database
+- Then with Maven, run `maven clean install` followed by `maven spring-boot:run`
 
 
 ## Usage  
 
-- Once app is running, make a POST request to `http://localhost:8080/login` with the following body:
+- Once app is running, make a POST request to `http://localhost:8080/login` with the following body to authenticate user:
 
 ```bash
 {
@@ -18,7 +19,7 @@ With Maven, run `maven clean install` followed by `maven spring-boot:run`
 
 - From response header, copy the Authorization header bearer token i.e. `Bearer eyJhb...Eyw`
 
-- Make a GET request to `http://localhost:8080/api/v1/profiles` with an Authorization header with the bearer token as value to retrieve student details
+- Make a GET request to `http://localhost:8080/api/v1/profiles` with an Authorization header with the bearer token as value to retrieve user profile details
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
