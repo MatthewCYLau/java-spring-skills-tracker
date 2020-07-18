@@ -3,3 +3,9 @@ application:
     secretKey: securetextisverylongsecuretextisverylongsecuretextisverylongsecuretextisverylong
     tokenPrefix: 'Bearer '
     tokenExpirationAfterDays: 14
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/skillsdb
+    username: postgres
+    password: password
+    pool-size: 30
