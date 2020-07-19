@@ -1,4 +1,4 @@
-package com.example.tracker.Profile;
+package com.example.tracker.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -44,5 +45,22 @@ public class ProfileDataAccessService {
 
             );
         };
+    }
+
+    public Optional<Profile> selectProfileById(UUID id) {
+
+        final String sql = "SELECT id, name, email FROM profiles WHERE id = ?";
+
+        Profile profile = jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{id},
+                (resultSet, i) -> {
+                    UUID profileId = UUID.fromString(resultSet.getString("id"));
+                    String name = resultSet.getString("name");
+                    String email = resultSet.getString("email");
+                    return new Profile(profileId, name, email);
+                });
+
+        return Optional.ofNullable(profile);
     }
 }

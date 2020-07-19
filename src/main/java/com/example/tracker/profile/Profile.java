@@ -1,4 +1,4 @@
-package com.example.tracker.Profile;
+package com.example.tracker.profile;
 
 import java.util.UUID;
 

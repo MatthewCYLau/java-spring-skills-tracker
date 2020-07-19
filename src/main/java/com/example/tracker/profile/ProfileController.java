@@ -1,10 +1,11 @@
-package com.example.tracker.Profile;
+package com.example.tracker.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/profiles")
@@ -17,16 +18,8 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-//    private static final List<Profile> PROFILES = Arrays.asList(
-//            new Profile(1, "James Bond"),
-//            new Profile(2, "Maria Jones"),
-//            new Profile(3, "Anna Smith")
-//    );
-
     @GetMapping
     public List<Profile> getProfiles() {
-        System.out.println("Get profiles");
-//        return PROFILES;
         return profileService.getProfiles();
     }
 
@@ -36,15 +29,10 @@ public class ProfileController {
         System.out.println(profile);
     }
 
-//    @GetMapping(path = "{id}")
-//    public Profile getProfile(@PathVariable("id") Integer id) {
-//        return PROFILES.stream()
-//                .filter(profile -> id.equals(profile.getId()))
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalStateException(
-//                        "Profile " + id + " does not exist"
-//                ));
-//    }
+    @GetMapping(path = "{id}")
+    public Profile getProfileById(@PathVariable("id") UUID id) {
+        return profileService.getProfileById(id).orElse(null);
+    }
 
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
