@@ -84,10 +84,10 @@
 
 	<profiles>
 		<profile>
-			<id>deploy</id>
+			<id>demo</id>
 			<properties>
 				<spring.profiles.active>
-					deploy
+					demo
 				</spring.profiles.active>
 			</properties>
 		</profile>
