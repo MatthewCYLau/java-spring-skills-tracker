@@ -82,6 +82,17 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>deploy</id>
+			<properties>
+				<spring.profiles.active>
+					deploy
+				</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
