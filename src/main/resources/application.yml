@@ -3,6 +3,11 @@ application:
     secretKey: securetextisverylongsecuretextisverylongsecuretextisverylongsecuretextisverylong
     tokenPrefix: 'Bearer '
     tokenExpirationAfterDays: 14
+
+spring:
+  profiles:
+    active: @spring.profiles.active@
+
 app:
   datasource:
     jdbc-url: jdbc:postgresql://localhost:5432/skillsdb
