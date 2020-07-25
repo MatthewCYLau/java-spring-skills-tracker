@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class ProfileDataAccessService {
+public class ProfileDataAccessService implements ProfileDao{
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -19,7 +19,8 @@ public class ProfileDataAccessService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    List<Profile> selectAllProfiles() {
+    @Override
+    public List<Profile> selectAllProfiles() {
 
         String sql = "" +
                 "SELECT id, " +
@@ -47,6 +48,7 @@ public class ProfileDataAccessService {
         };
     }
 
+    @Override
     public Optional<Profile> selectProfileById(UUID id) {
 
         final String sql = "SELECT id, name, email FROM profiles WHERE id = ?";
@@ -64,7 +66,8 @@ public class ProfileDataAccessService {
         return Optional.ofNullable(profile);
     }
 
-    int insertProfile(UUID id, Profile profile) {
+    @Override
+    public int insertProfile(UUID id, Profile profile) {
 
         String sql = "" +
                 "INSERT INTO profiles (id, name, email) " +
