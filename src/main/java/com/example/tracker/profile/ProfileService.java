@@ -24,4 +24,14 @@ public class ProfileService {
     public Optional <Profile> getProfileById(UUID id) {
         return profileDataAccessService.selectProfileById(id);
     }
+
+    void addProfile(Profile profile) {
+        addProfile(null, profile);
+    }
+
+    void addProfile(UUID id, Profile profile) {
+        UUID newProfileId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+
+        profileDataAccessService.insertProfile(newProfileId, profile);
+    }
 }

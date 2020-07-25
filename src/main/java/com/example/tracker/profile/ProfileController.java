@@ -1,6 +1,8 @@
 package com.example.tracker.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,9 @@ public class ProfileController {
     }
 
     @PostMapping
-    public void createProfile(@RequestBody Profile profile) {
-        System.out.println("register");
-        System.out.println(profile);
+    public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
+        profileService.addProfile(profile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @GetMapping(path = "{id}")

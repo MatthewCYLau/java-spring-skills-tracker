@@ -63,4 +63,18 @@ public class ProfileDataAccessService {
 
         return Optional.ofNullable(profile);
     }
+
+    int insertProfile(UUID id, Profile profile) {
+
+        String sql = "" +
+                "INSERT INTO profiles (id, name, email) " +
+                "VALUES (?, ?, ?)";
+
+        return jdbcTemplate.update(
+                sql,
+                id,
+                profile.getName(),
+                profile.getEmail()
+        );
+    }
 }
