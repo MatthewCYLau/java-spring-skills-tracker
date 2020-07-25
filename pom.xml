@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<node.version>v10.13.0</node.version>
+		<yarn.version>v1.12.1</yarn.version>
 	</properties>
 
 	<dependencies>
@@ -84,15 +86,88 @@
 
 	<profiles>
 		<profile>
-			<id>demo</id>
+			<id>prod</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.6</version>
+						<configuration>
+							<workingDirectory>src/client</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install node</id>
+								<goals>
+									<goal>install-node-and-yarn</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>${node.version}</nodeVersion>
+									<yarnVersion>${yarn.version}</yarnVersion>
+								</configuration>
+							</execution>
+							<execution>
+								<id>yarn install</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<phase>generate-resources</phase>
+							</execution>
+							<execution>
+								<id>yarn test</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<phase>test</phase>
+								<configuration>
+									<arguments>test</arguments>
+									<environmentVariables>
+										<CI>true</CI>
+									</environmentVariables>
+								</configuration>
+							</execution>
+							<execution>
+								<id>yarn build</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<phase>compile</phase>
+								<configuration>
+									<arguments>build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/static</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/client/build</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 			<properties>
 				<spring.profiles.active>
-					demo
+					prod
 				</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
-
 	<build>
 		<plugins>
 			<plugin>

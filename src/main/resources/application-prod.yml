@@ -1,0 +1,19 @@
+application:
+  jwt:
+    secretKey: securetextisverylongsecuretextisverylongsecuretextisverylongsecuretextisverylong
+    tokenPrefix: 'Bearer '
+    tokenExpirationAfterDays: 14
+
+spring:
+  profiles:
+    active: @spring.profiles.active@
+
+server:
+  port: 5000
+
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://skillsdb.c3bji2qrl6dz.us-east-1.rds.amazonaws.com:5432/skillsdb
+    username: skillsdb
+    password: password
+    pool-size: 30
