@@ -6,11 +6,14 @@ public class Achievement {
 
     private final UUID id;
     private final UUID profile_id;
+    private final String name;
     private final UUID skill_id;
 
-    public Achievement(UUID id, UUID profile_id, UUID skill_id) {
+
+    public Achievement(UUID id, UUID profile_id, String name, UUID skill_id) {
         this.id = id;
         this.profile_id = profile_id;
+        this.name = name;
         this.skill_id = skill_id;
     }
 
@@ -24,5 +27,9 @@ public class Achievement {
 
     public UUID getSkill_id() {
         return skill_id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

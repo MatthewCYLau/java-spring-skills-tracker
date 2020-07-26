@@ -25,6 +25,7 @@ public class AchievementDataAccessService implements AchievementDao {
                 "SELECT " +
                 " achievements.achievement_id, " +
                 " profiles.profile_id, " +
+                " profiles.name, " +
                 " skills.skill_id " +
                 "FROM achievements " +
                 "JOIN profiles USING (profile_id) " +
@@ -40,6 +41,7 @@ public class AchievementDataAccessService implements AchievementDao {
                 new Achievement(
                         UUID.fromString(resultSet.getString("achievement_id")),
                         UUID.fromString(resultSet.getString("profile_id")),
+                        resultSet.getString("name"),
                         UUID.fromString(resultSet.getString("skill_id"))
                 );
     }
