@@ -80,4 +80,30 @@ public class ProfileDataAccessService implements ProfileDao{
                 profile.getEmail()
         );
     }
+
+    @Override
+    public int updateEmail(UUID id, String email) {
+        String sql = "" +
+                "UPDATE profiles " +
+                "SET email = ? " +
+                "WHERE id = ?";
+        return jdbcTemplate.update(sql, email, id);
+    }
+
+    @Override
+    public int updateName(UUID id, String name) {
+        String sql = "" +
+                "UPDATE profiles " +
+                "SET name = ? " +
+                "WHERE id = ?";
+        return jdbcTemplate.update(sql, name, id);
+    }
+
+    @Override
+    public int deleteProfileById(UUID id) {
+        String sql = "" +
+                "DELETE FROM profiles " +
+                "WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 }

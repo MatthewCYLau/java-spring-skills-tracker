@@ -36,15 +36,15 @@ public class ProfileController {
         return profileService.getProfileById(id).orElse(null);
     }
 
-    @DeleteMapping(path = "{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteProfile(@PathVariable("id") Integer id) {
-        System.out.println("Delete");
-        System.out.println(id);
+    @PatchMapping(path = "{id}")
+    public void updateProfile(@PathVariable("id") UUID id,
+                              @RequestBody Profile profile) {
+        profileService.updateProfile(id, profile);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateProfile(@PathVariable("id") Integer id, @RequestBody Profile profile) {
-        System.out.println("update");
-        System.out.println(String.format("%s %s", id, profile));
-    }}
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("{id}")
+    public void deleteProfile(@PathVariable("id") UUID id) {
+        profileService.deleteProfile(id);
+    }
+}

@@ -12,4 +12,10 @@ public interface ProfileDao {
 
     Optional<Profile> selectProfileById(UUID id);
 
+    int deleteProfileById(UUID id);
+
+    int updateEmail(UUID id, String email);
+
+    int updateName(UUID id, String name);
+
 }
