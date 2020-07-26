@@ -24,8 +24,8 @@ public class AchievementDataAccessService implements AchievementDao {
         String sql = "" +
                 "SELECT " +
                 " achievements.achievement_id, " +
-                " profiles.name, " +
-                " skills.skill " +
+                " profiles.profile_id, " +
+                " skills.skill_id " +
                 "FROM achievements " +
                 "JOIN profiles USING (profile_id) " +
                 "JOIN skills USING (skill_id) ";
@@ -39,8 +39,23 @@ public class AchievementDataAccessService implements AchievementDao {
         return (resultSet, i) ->
                 new Achievement(
                         UUID.fromString(resultSet.getString("achievement_id")),
-                        resultSet.getString("name"),
-                        resultSet.getString("skill")
+                        UUID.fromString(resultSet.getString("profile_id")),
+                        UUID.fromString(resultSet.getString("skill_id"))
                 );
+    }
+
+    @Override
+    public int insertAchievement(UUID id, Achievement achievement) {
+
+        String sql = "" +
+                "INSERT INTO achievements (achievement_id, profile_id, skill_id) " +
+                "VALUES (?, ?, ?)";
+
+        return jdbcTemplate.update(
+                sql,
+                id,
+                achievement.getProfile_id(),
+                achievement.getSkill_id()
+        );
     }
 }
