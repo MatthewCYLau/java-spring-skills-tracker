@@ -23,7 +23,7 @@ public class ProfileDataAccessService implements ProfileDao{
     public List<Profile> selectAllProfiles() {
 
         String sql = "" +
-                "SELECT id, " +
+                "SELECT profile_id, " +
                 "name, " +
                 "email " +
                 "FROM profiles";
@@ -33,7 +33,7 @@ public class ProfileDataAccessService implements ProfileDao{
 
     private RowMapper<Profile> mapProfileFromDb() {
         return (resultSet, i) -> {
-            String idStr = resultSet.getString("id");
+            String idStr = resultSet.getString("profile_id");
             UUID id = UUID.fromString(idStr);
 
             String name = resultSet.getString("name");
@@ -51,13 +51,13 @@ public class ProfileDataAccessService implements ProfileDao{
     @Override
     public Optional<Profile> selectProfileById(UUID id) {
 
-        final String sql = "SELECT id, name, email FROM profiles WHERE id = ?";
+        final String sql = "SELECT profile_id, name, email FROM profiles WHERE profile_id = ?";
 
         Profile profile = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{id},
                 (resultSet, i) -> {
-                    UUID profileId = UUID.fromString(resultSet.getString("id"));
+                    UUID profileId = UUID.fromString(resultSet.getString("profile_id"));
                     String name = resultSet.getString("name");
                     String email = resultSet.getString("email");
                     return new Profile(profileId, name, email);
@@ -70,7 +70,7 @@ public class ProfileDataAccessService implements ProfileDao{
     public int insertProfile(UUID id, Profile profile) {
 
         String sql = "" +
-                "INSERT INTO profiles (id, name, email) " +
+                "INSERT INTO profiles (profile_id, name, email) " +
                 "VALUES (?, ?, ?)";
 
         return jdbcTemplate.update(
@@ -86,7 +86,7 @@ public class ProfileDataAccessService implements ProfileDao{
         String sql = "" +
                 "UPDATE profiles " +
                 "SET email = ? " +
-                "WHERE id = ?";
+                "WHERE profile_id = ?";
         return jdbcTemplate.update(sql, email, id);
     }
 
@@ -95,7 +95,7 @@ public class ProfileDataAccessService implements ProfileDao{
         String sql = "" +
                 "UPDATE profiles " +
                 "SET name = ? " +
-                "WHERE id = ?";
+                "WHERE profile_id = ?";
         return jdbcTemplate.update(sql, name, id);
     }
 
@@ -103,7 +103,7 @@ public class ProfileDataAccessService implements ProfileDao{
     public int deleteProfileById(UUID id) {
         String sql = "" +
                 "DELETE FROM profiles " +
-                "WHERE id = ?";
+                "WHERE profile_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 }
