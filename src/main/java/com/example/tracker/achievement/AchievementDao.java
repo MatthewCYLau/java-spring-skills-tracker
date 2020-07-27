@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface AchievementDao {
 
-    int insertAchievement(UUID id, Achievement achievement);
+    int insertAchievement(UUID id, NewAchievement newAchievement);
 
     List<Achievement> selectAllAchievements();
 }

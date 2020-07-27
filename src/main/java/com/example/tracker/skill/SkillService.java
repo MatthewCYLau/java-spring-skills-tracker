@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SkillService {
@@ -16,5 +18,9 @@ public class SkillService {
 
     public List<Skill> getSkills() {
         return skillDataAccessService.selectAllSkills();
+    }
+
+    public Optional<Skill> getSkillById(UUID id) {
+        return skillDataAccessService.selectSkillById(id);
     }
 }

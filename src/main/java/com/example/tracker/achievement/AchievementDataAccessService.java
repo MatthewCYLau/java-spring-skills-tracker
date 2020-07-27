@@ -1,5 +1,7 @@
 package com.example.tracker.achievement;
 
+import com.example.tracker.profile.ProfileService;
+import com.example.tracker.skill.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,10 +14,16 @@ import java.util.UUID;
 public class AchievementDataAccessService implements AchievementDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final ProfileService profileService;
+    private final SkillService skillService;
 
     @Autowired
-    public AchievementDataAccessService(JdbcTemplate jdbcTemplate) {
+    public AchievementDataAccessService(JdbcTemplate jdbcTemplate,
+                                        ProfileService profileService,
+                                        SkillService skillService) {
         this.jdbcTemplate = jdbcTemplate;
+        this.profileService = profileService;
+        this.skillService = skillService;
     }
 
     @Override
@@ -40,14 +48,13 @@ public class AchievementDataAccessService implements AchievementDao {
         return (resultSet, i) ->
                 new Achievement(
                         UUID.fromString(resultSet.getString("achievement_id")),
-                        UUID.fromString(resultSet.getString("profile_id")),
-                        resultSet.getString("name"),
-                        UUID.fromString(resultSet.getString("skill_id"))
-                );
+                        profileService.getProfileById(UUID.fromString(resultSet.getString("profile_id"))),
+                        skillService.getSkillById(UUID.fromString(resultSet.getString("skill_id")))
+                        );
     }
 
     @Override
-    public int insertAchievement(UUID id, Achievement achievement) {
+    public int insertAchievement(UUID id, NewAchievement newAchievement) {
 
         String sql = "" +
                 "INSERT INTO achievements (achievement_id, profile_id, skill_id) " +
@@ -56,8 +63,8 @@ public class AchievementDataAccessService implements AchievementDao {
         return jdbcTemplate.update(
                 sql,
                 id,
-                achievement.getProfile_id(),
-                achievement.getSkill_id()
+                newAchievement.getProfile_id(),
+                newAchievement.getSkill_id()
         );
     }
 }

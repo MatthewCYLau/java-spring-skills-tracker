@@ -1,35 +1,32 @@
 package com.example.tracker.achievement;
 
+import com.example.tracker.profile.Profile;
+import com.example.tracker.skill.Skill;
+
+import java.util.Optional;
 import java.util.UUID;
 
 public class Achievement {
 
     private final UUID id;
-    private final UUID profile_id;
-    private final String name;
-    private final UUID skill_id;
+    private final Optional<Profile> profile;
+    private final Optional<Skill> skill;
 
-
-    public Achievement(UUID id, UUID profile_id, String name, UUID skill_id) {
+    public Achievement(UUID id, Optional<Profile> profile, Optional<Skill> skill) {
         this.id = id;
-        this.profile_id = profile_id;
-        this.name = name;
-        this.skill_id = skill_id;
+        this.profile = profile;
+        this.skill = skill;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getProfile_id() {
-        return profile_id;
+    public Optional<Profile> getProfile() {
+        return profile;
     }
 
-    public UUID getSkill_id() {
-        return skill_id;
-    }
-
-    public String getName() {
-        return name;
+    public Optional<Skill> getSkill() {
+        return skill;
     }
 }

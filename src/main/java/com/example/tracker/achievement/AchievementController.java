@@ -24,8 +24,8 @@ public class AchievementController {
     }
 
     @PostMapping
-    public ResponseEntity<Achievement> addAchievement(@RequestBody Achievement achievement) {
-        achievementService.addAchievement(achievement);
+    public ResponseEntity<Achievement> addAchievement(@RequestBody NewAchievement newAchievement) {
+        achievementService.addAchievement(newAchievement);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }

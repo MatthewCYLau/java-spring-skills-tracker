@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -41,5 +42,22 @@ public class SkillDataAccessService implements SkillDao {
                     skill
             );
         };
+    }
+
+    @Override
+    public Optional<Skill> selectSkillById(UUID id) {
+
+        final String sql = "SELECT skill_id, skill FROM skills WHERE skill_id = ?";
+
+        Skill skill = jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{id},
+                (resultSet, i) -> {
+                    UUID skillId = UUID.fromString(resultSet.getString("skill_id"));
+                    String skillName = resultSet.getString("skill");
+                    return new Skill(skillId, skillName);
+                });
+
+        return Optional.ofNullable(skill);
     }
 }

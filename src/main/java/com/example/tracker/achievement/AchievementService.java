@@ -21,13 +21,13 @@ public class AchievementService {
         return achievementDataAccessService.selectAllAchievements();
     }
 
-    void addAchievement(Achievement achievement) {
-        addAchievement(null, achievement);
+    void addAchievement(NewAchievement newAchievement) {
+        addAchievement(null, newAchievement);
     }
 
-    void addAchievement(UUID id, Achievement achievement) {
+    void addAchievement(UUID id, NewAchievement newAchievement) {
         UUID newAchievementId = Optional.ofNullable(id).orElse(UUID.randomUUID());
 
-        achievementDataAccessService.insertAchievement(newAchievementId, achievement);
+        achievementDataAccessService.insertAchievement(newAchievementId, newAchievement);
     }
 }
