@@ -39,8 +39,10 @@ public class RealUserDaoService implements UserDao {
 
         String sql = "" +
                 "SELECT " +
+                " users.user_id, " +
                 " users.username, " +
-                " users.password " +
+                " users.password, " +
+                " users.is_admin " +
                 "FROM users ";
         return jdbcTemplate.query(
                 sql,
@@ -50,13 +52,13 @@ public class RealUserDaoService implements UserDao {
 
     private RowMapper<User> mapUserFromDb() {
         return (resultSet, i) -> {
-            UUID id =  UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002");
+            UUID userId =  UUID.fromString(resultSet.getString("user_id"));
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
-            Boolean isAdmin = true;
+            Boolean isAdmin = resultSet.getBoolean("is_admin");
             Set<? extends GrantedAuthority> grantedAuthorities = isAdmin ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
             return new User(
-                    id, username,
+                    userId, username,
                     passwordEncoder.encode(password),
                     isAdmin, grantedAuthorities,
                     true,
