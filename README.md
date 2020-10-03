@@ -4,7 +4,16 @@
 
 - In project root directory, run `docker-compose up` to start a PostgreSQL database
 - Then with Maven, select `dev` profile and run `maven clean install` followed by `maven spring-boot:run`
-
+- Then, create two users in your local PostgreSQL database:
+```bash
+docker ps # obtain the PostgreSQL container id
+docker exec -it <container id> bin/bash # enter PostgreSQL container shell
+psql -U postgres # login to PostgreSQL with username postgres
+\c skillsdb # connect to database with name skillsdb
+CREATE EXTENSION "uuid-ossp"; # add the UUID extension
+INSERT INTO users (user_id, username, password, is_admin) VALUES (uuid_generate_v4(), 'admin', 'password', TRUE); # creates the admin user
+INSERT INTO users (user_id, username, password, is_admin) VALUES (uuid_generate_v4(), 'basic_user', 'password', FALSE); # creates the basic user
+```
 
 ## Usage  
 
