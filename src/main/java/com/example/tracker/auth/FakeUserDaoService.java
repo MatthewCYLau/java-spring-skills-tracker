@@ -35,7 +35,7 @@ public class FakeUserDaoService implements UserDao {
                 new User(
                         UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002"), "basic_user",
                         passwordEncoder.encode("password"),
-                        BASIC_USER.getGrantedAuthorities(),
+                        false, BASIC_USER.getGrantedAuthorities(),
                         true,
                         true,
                         true,
@@ -44,7 +44,7 @@ public class FakeUserDaoService implements UserDao {
                 new User(
                         UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002"), "admin",
                         passwordEncoder.encode("password"),
-                        ADMIN.getGrantedAuthorities(),
+                        true, ADMIN.getGrantedAuthorities(),
                         true,
                         true,
                         true,

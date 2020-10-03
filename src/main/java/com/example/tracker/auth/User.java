@@ -12,6 +12,7 @@ public class User implements UserDetails {
     private final UUID id;
     private final String username;
     private final String password;
+    private final boolean isAdmin;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;
@@ -20,7 +21,7 @@ public class User implements UserDetails {
 
     public User(UUID id, String username,
                 String password,
-                Set<? extends GrantedAuthority> grantedAuthorities,
+                boolean isAdmin, Set<? extends GrantedAuthority> grantedAuthorities,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
@@ -28,6 +29,7 @@ public class User implements UserDetails {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.isAdmin = isAdmin;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -37,6 +39,10 @@ public class User implements UserDetails {
 
     public UUID getId() {
         return id;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     @Override

@@ -53,11 +53,12 @@ public class RealUserDaoService implements UserDao {
             UUID id =  UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002");
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
-            Set<? extends GrantedAuthority> grantedAuthorities = username.contains("admin") ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
+            Boolean isAdmin = true;
+            Set<? extends GrantedAuthority> grantedAuthorities = isAdmin ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
             return new User(
                     id, username,
                     passwordEncoder.encode(password),
-                    grantedAuthorities,
+                    isAdmin, grantedAuthorities,
                     true,
                     true,
                     true,
