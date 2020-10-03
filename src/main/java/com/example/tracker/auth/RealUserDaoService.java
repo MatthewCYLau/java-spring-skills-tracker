@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.example.tracker.security.UserRole.ADMIN;
 import static com.example.tracker.security.UserRole.BASIC_USER;
@@ -49,11 +50,12 @@ public class RealUserDaoService implements UserDao {
 
     private RowMapper<User> mapUserFromDb() {
         return (resultSet, i) -> {
+            UUID id =  UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002");
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
             Set<? extends GrantedAuthority> grantedAuthorities = username.contains("admin") ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
             return new User(
-                    username,
+                    id, username,
                     passwordEncoder.encode(password),
                     grantedAuthorities,
                     true,

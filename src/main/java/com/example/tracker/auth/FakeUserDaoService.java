@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-import static com.example.tracker.security.UserRole.*;
+import static com.example.tracker.security.UserRole.ADMIN;
+import static com.example.tracker.security.UserRole.BASIC_USER;
 
 @Repository("fake")
 public class FakeUserDaoService implements UserDao {
@@ -31,7 +33,7 @@ public class FakeUserDaoService implements UserDao {
     private List<User> getUsers() {
         List<User> users = Lists.newArrayList(
                 new User(
-                        "basic_user",
+                        UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002"), "basic_user",
                         passwordEncoder.encode("password"),
                         BASIC_USER.getGrantedAuthorities(),
                         true,
@@ -40,7 +42,7 @@ public class FakeUserDaoService implements UserDao {
                         true
                 ),
                 new User(
-                        "admin",
+                        UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002"), "admin",
                         passwordEncoder.encode("password"),
                         ADMIN.getGrantedAuthorities(),
                         true,
