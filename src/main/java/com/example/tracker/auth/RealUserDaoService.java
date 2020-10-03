@@ -3,13 +3,16 @@ package com.example.tracker.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.example.tracker.security.UserRole.ADMIN;
+import static com.example.tracker.security.UserRole.BASIC_USER;
 
 @Repository("real")
 public class RealUserDaoService implements UserDao {
@@ -48,10 +51,11 @@ public class RealUserDaoService implements UserDao {
         return (resultSet, i) -> {
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
+            Set<? extends GrantedAuthority> grantedAuthorities = username.contains("admin") ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
             return new User(
                     username,
                     passwordEncoder.encode(password),
-                    ADMIN.getGrantedAuthorities(),
+                    grantedAuthorities,
                     true,
                     true,
                     true,
