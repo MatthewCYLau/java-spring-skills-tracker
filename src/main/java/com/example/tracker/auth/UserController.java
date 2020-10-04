@@ -1,9 +1,11 @@
 package com.example.tracker.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -18,7 +20,13 @@ public class UserController {
     }
 
     @GetMapping
-    public String getProfiles() {
-        return "Hello World!";
+    public List<User> getUsers() {
+        return userService.getUsers();
+    }
+
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        userService.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }

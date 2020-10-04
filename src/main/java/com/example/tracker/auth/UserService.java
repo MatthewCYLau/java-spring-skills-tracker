@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -23,5 +27,19 @@ public class UserService implements UserDetailsService {
         return userDao.selectUserByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format("Username %s not found", username)));
+    }
+
+    public List<User> getUsers() {
+        return userDao.selectAllUsers();
+    }
+
+    void addUser(User user) {
+        addUser(null, user);
+    }
+
+    void addUser(UUID id, User user) {
+        UUID newUserId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+
+//        userDao.insertUser(newUserId, user);
     }
 }

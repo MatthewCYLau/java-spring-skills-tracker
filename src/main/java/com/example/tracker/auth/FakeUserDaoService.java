@@ -24,13 +24,14 @@ public class FakeUserDaoService implements UserDao {
 
     @Override
     public Optional<User> selectUserByUsername(String username) {
-        return getUsers()
+        return selectAllUsers()
                 .stream()
                 .filter(user -> username.equals(user.getUsername()))
                 .findFirst();
     }
 
-    private List<User> getUsers() {
+    @Override
+    public List<User> selectAllUsers() {
         List<User> users = Lists.newArrayList(
                 new User(
                         UUID.fromString("e149b3dc-0552-11eb-adc1-0242ac120002"), "basic_user",

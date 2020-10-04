@@ -29,13 +29,14 @@ public class RealUserDaoService implements UserDao {
 
     @Override
     public Optional<User> selectUserByUsername(String username) {
-        return getUsers()
+        return selectAllUsers()
                 .stream()
                 .filter(user -> username.equals(user.getUsername()))
                 .findFirst();
     }
 
-    private List<User> getUsers() {
+    @Override
+    public List<User> selectAllUsers() {
 
         String sql = "" +
                 "SELECT " +
