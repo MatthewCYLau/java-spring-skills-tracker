@@ -1,5 +1,9 @@
 # Java Spring Skills Tracker
 
+A reference project to deploy a Java Spring app onto AWS Elastic Beanstalk
+
+An app to track users, their skillz and achievements 
+
 ## Run/Build Locally
 
 - In project root directory, run `docker-compose up` to start a PostgreSQL database
