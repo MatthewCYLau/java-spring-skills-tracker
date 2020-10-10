@@ -87,4 +87,12 @@ public class RealUserDaoService implements UserDao {
         );
     }
 
+    @Override
+    public int deleteUserById(UUID id) {
+        String sql = "" +
+                "DELETE FROM users " +
+                "WHERE user_id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
 }
