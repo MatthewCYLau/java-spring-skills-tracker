@@ -56,4 +56,8 @@ public class FakeUserDaoService implements UserDao {
         return users;
     }
 
+    @Override
+    public int insertUser(UUID id, User user) {
+        return 0;
+    }
 }

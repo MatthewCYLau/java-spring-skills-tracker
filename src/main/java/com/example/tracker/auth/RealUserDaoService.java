@@ -71,4 +71,20 @@ public class RealUserDaoService implements UserDao {
         };
     }
 
+    @Override
+    public int insertUser(UUID id, User user) {
+
+        String sql = "" +
+                "INSERT INTO users (user_id, username, password, is_admin) " +
+                "VALUES (?, ?, ?, ?)";
+
+        return jdbcTemplate.update(
+                sql,
+                id,
+                user.getUsername(),
+                user.getPassword(),
+                user.isAdmin()
+        );
+    }
+
 }

@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
 
     void addUser(UUID id, User user) {
         UUID newUserId = Optional.ofNullable(id).orElse(UUID.randomUUID());
-
-//        userDao.insertUser(newUserId, user);
+        userDao.insertUser(newUserId, user);
     }
 }
