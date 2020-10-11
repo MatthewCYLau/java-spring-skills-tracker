@@ -60,4 +60,26 @@ public class SkillDataAccessService implements SkillDao {
 
         return Optional.ofNullable(skill);
     }
+
+    @Override
+    public int insertSkill(UUID id, Skill skill) {
+
+        String sql = "" +
+                "INSERT INTO skills (skill_id, skill) " +
+                "VALUES (?, ?)";
+
+        return jdbcTemplate.update(
+                sql,
+                id,
+                skill.getSkill()
+        );
+    }
+
+    @Override
+    public int deleteSkillById(UUID id) {
+        String sql = "" +
+                "DELETE FROM skills " +
+                "WHERE skill_id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 }

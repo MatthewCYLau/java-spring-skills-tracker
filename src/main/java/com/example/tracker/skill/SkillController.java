@@ -1,10 +1,10 @@
 package com.example.tracker.skill;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,5 +28,17 @@ public class SkillController {
     @GetMapping(path = "{id}")
     public Skill getSkillById(@PathVariable("id") UUID id) {
         return skillService.getSkillById(id).orElse(null);
+    }
+
+    @PostMapping
+    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill) {
+        skillService.addSkill(skill);
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("{id}")
+    public void deleteSkill(@PathVariable("id") UUID id) {
+        skillService.deleteSkill(id);
     }
 }
