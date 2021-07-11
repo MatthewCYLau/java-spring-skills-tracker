@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 INSERT INTO users
     (user_id, username, password, is_admin)
 SELECT uuid_generate_v4(), 'admin', 'password', TRUE
