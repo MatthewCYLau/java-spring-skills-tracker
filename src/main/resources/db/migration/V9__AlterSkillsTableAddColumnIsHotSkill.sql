@@ -1,0 +1,2 @@
+ALTER TABLE skills
+    ADD COLUMN is_hot_skill BOOLEAN DEFAULT FALSE;;

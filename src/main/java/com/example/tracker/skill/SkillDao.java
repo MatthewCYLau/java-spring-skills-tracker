@@ -10,7 +10,7 @@ public interface SkillDao {
 
     Optional<Skill> selectSkillById(UUID id);
 
-    int insertSkill(UUID id, Skill skill);
+    int insertSkill(UUID id, Skill skill, Boolean isHotSkill);
 
     int deleteSkillById(UUID id);
 

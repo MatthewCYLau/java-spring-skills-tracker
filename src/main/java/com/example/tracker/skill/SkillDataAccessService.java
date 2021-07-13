@@ -24,7 +24,8 @@ public class SkillDataAccessService implements SkillDao {
 
         String sql = "" +
                 "SELECT skill_id, " +
-                "skill " +
+                "skill, " +
+                "is_hot_skill " +
                 "FROM skills";
 
         return jdbcTemplate.query(sql, mapSkillFromDb());
@@ -36,10 +37,13 @@ public class SkillDataAccessService implements SkillDao {
             UUID id = UUID.fromString(idStr);
 
             String skill = resultSet.getString("skill");
+            Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
+
 
             return new Skill(
                     id,
-                    skill
+                    skill,
+                    isHotSkill
             );
         };
     }
@@ -47,7 +51,7 @@ public class SkillDataAccessService implements SkillDao {
     @Override
     public Optional<Skill> selectSkillById(UUID id) {
 
-        final String sql = "SELECT skill_id, skill FROM skills WHERE skill_id = ?";
+        final String sql = "SELECT skill_id, skill, is_hot_skill FROM skills WHERE skill_id = ?";
 
         Skill skill = jdbcTemplate.queryForObject(
                 sql,
@@ -55,23 +59,25 @@ public class SkillDataAccessService implements SkillDao {
                 (resultSet, i) -> {
                     UUID skillId = UUID.fromString(resultSet.getString("skill_id"));
                     String skillName = resultSet.getString("skill");
-                    return new Skill(skillId, skillName);
+                    Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
+                    return new Skill(skillId, skillName, isHotSkill);
                 });
 
         return Optional.ofNullable(skill);
     }
 
     @Override
-    public int insertSkill(UUID id, Skill skill) {
+    public int insertSkill(UUID id, Skill skill, Boolean is_hot_skill) {
 
         String sql = "" +
-                "INSERT INTO skills (skill_id, skill) " +
-                "VALUES (?, ?)";
+                "INSERT INTO skills (skill_id, skill, is_hot_skill) " +
+                "VALUES (?, ?, ?)";
 
         return jdbcTemplate.update(
                 sql,
                 id,
-                skill.getSkill()
+                skill.getSkill(),
+                skill.getIsHotSkill()
         );
     }
 

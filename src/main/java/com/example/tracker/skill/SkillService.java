@@ -25,13 +25,13 @@ public class SkillService {
     }
 
     void addSkill(Skill skill) {
-        addSkill(null, skill);
+        addSkill(null, skill, false);
     }
 
-    void addSkill(UUID id, Skill skill) {
+    void addSkill(UUID id, Skill skill, Boolean isHotSkill) {
         UUID newSkillId = Optional.ofNullable(id).orElse(UUID.randomUUID());
 
-        skillDataAccessService.insertSkill(newSkillId, skill);
+        skillDataAccessService.insertSkill(newSkillId, skill, isHotSkill);
     }
 
     void deleteSkill(UUID id) {
