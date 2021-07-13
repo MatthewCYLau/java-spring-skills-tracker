@@ -6,16 +6,16 @@ import java.util.UUID;
 
 public interface ProfileDao {
 
-    int insertProfile(UUID id, Profile profile);
+	int insertProfile(UUID id, Profile profile);
 
-    List<Profile> selectAllProfiles();
+	List<Profile> selectAllProfiles();
 
-    Optional<Profile> selectProfileById(UUID id);
+	Optional<Profile> selectProfileById(UUID id);
 
-    int deleteProfileById(UUID id);
+	int deleteProfileById(UUID id);
 
-    int updateEmail(UUID id, String email);
+	int updateEmail(UUID id, String email);
 
-    int updateName(UUID id, String name);
+	int updateName(UUID id, String name);
 
 }

@@ -10,24 +10,25 @@ import java.util.UUID;
 @Service
 public class AchievementService {
 
-    private final AchievementDataAccessService achievementDataAccessService;
+	private final AchievementDataAccessService achievementDataAccessService;
 
-    @Autowired
-    public AchievementService(AchievementDataAccessService achievementDataAccessService) {
-        this.achievementDataAccessService = achievementDataAccessService;
-    }
+	@Autowired
+	public AchievementService(AchievementDataAccessService achievementDataAccessService) {
+		this.achievementDataAccessService = achievementDataAccessService;
+	}
 
-    public List<Achievement> getAchievements() {
-        return achievementDataAccessService.selectAllAchievements();
-    }
+	public List<Achievement> getAchievements() {
+		return achievementDataAccessService.selectAllAchievements();
+	}
 
-    void addAchievement(NewAchievement newAchievement) {
-        addAchievement(null, newAchievement);
-    }
+	void addAchievement(NewAchievement newAchievement) {
+		addAchievement(null, newAchievement);
+	}
 
-    void addAchievement(UUID id, NewAchievement newAchievement) {
-        UUID newAchievementId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+	void addAchievement(UUID id, NewAchievement newAchievement) {
+		UUID newAchievementId = Optional.ofNullable(id).orElse(UUID.randomUUID());
 
-        achievementDataAccessService.insertAchievement(newAchievementId, newAchievement);
-    }
+		achievementDataAccessService.insertAchievement(newAchievementId, newAchievement);
+	}
+
 }

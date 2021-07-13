@@ -11,18 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class JavaSpringSkillsTrackerAppTests {
 
+	@Autowired
+	private ProfileController controller;
 
-    @Autowired
-    private ProfileController controller;
+	@Test
+	public void contextLoads() throws Exception {
+		assertThat(controller).isNotNull();
+	}
 
-    @Test
-    public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
-    }
-
-    @Test
-    public void exampleTest() {
-        assertEquals("foo", "foo");
-    }
+	@Test
+	public void exampleTest() {
+		assertEquals("foo", "foo");
+	}
 
 }

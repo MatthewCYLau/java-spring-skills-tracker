@@ -13,32 +13,33 @@ import java.util.UUID;
 @RequestMapping("api/v1/skills")
 public class SkillController {
 
-    private final SkillService skillService;
+	private final SkillService skillService;
 
-    @Autowired
-    public SkillController(SkillService skillService) {
-        this.skillService = skillService;
-    }
+	@Autowired
+	public SkillController(SkillService skillService) {
+		this.skillService = skillService;
+	}
 
-    @GetMapping
-    public List<Skill> getSkills() {
-        return skillService.getSkills();
-    }
+	@GetMapping
+	public List<Skill> getSkills() {
+		return skillService.getSkills();
+	}
 
-    @GetMapping(path = "{id}")
-    public Skill getSkillById(@PathVariable("id") UUID id) {
-        return skillService.getSkillById(id).orElse(null);
-    }
+	@GetMapping(path = "{id}")
+	public Skill getSkillById(@PathVariable("id") UUID id) {
+		return skillService.getSkillById(id).orElse(null);
+	}
 
-    @PostMapping
-    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill) {
-        skillService.addSkill(skill);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
+	@PostMapping
+	public ResponseEntity<Skill> addSkill(@RequestBody Skill skill) {
+		skillService.addSkill(skill);
+		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("{id}")
-    public void deleteSkill(@PathVariable("id") UUID id) {
-        skillService.deleteSkill(id);
-    }
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@DeleteMapping("{id}")
+	public void deleteSkill(@PathVariable("id") UUID id) {
+		skillService.deleteSkill(id);
+	}
+
 }

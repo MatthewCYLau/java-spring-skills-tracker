@@ -8,25 +8,28 @@ import java.util.UUID;
 
 public class Achievement {
 
-    private final UUID id;
-    private final Optional<Profile> profile;
-    private final Optional<Skill> skill;
+	private final UUID id;
 
-    public Achievement(UUID id, Optional<Profile> profile, Optional<Skill> skill) {
-        this.id = id;
-        this.profile = profile;
-        this.skill = skill;
-    }
+	private final Optional<Profile> profile;
 
-    public UUID getId() {
-        return id;
-    }
+	private final Optional<Skill> skill;
 
-    public Optional<Profile> getProfile() {
-        return profile;
-    }
+	public Achievement(UUID id, Optional<Profile> profile, Optional<Skill> skill) {
+		this.id = id;
+		this.profile = profile;
+		this.skill = skill;
+	}
 
-    public Optional<Skill> getSkill() {
-        return skill;
-    }
+	public UUID getId() {
+		return id;
+	}
+
+	public Optional<Profile> getProfile() {
+		return profile;
+	}
+
+	public Optional<Skill> getSkill() {
+		return skill;
+	}
+
 }

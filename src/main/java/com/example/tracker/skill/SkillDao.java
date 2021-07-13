@@ -6,12 +6,12 @@ import java.util.UUID;
 
 public interface SkillDao {
 
-    List<Skill> selectAllSkills();
+	List<Skill> selectAllSkills();
 
-    Optional<Skill> selectSkillById(UUID id);
+	Optional<Skill> selectSkillById(UUID id);
 
-    int insertSkill(UUID id, Skill skill, Boolean isHotSkill);
+	int insertSkill(UUID id, Skill skill, Boolean isHotSkill);
 
-    int deleteSkillById(UUID id);
+	int deleteSkillById(UUID id);
 
 }

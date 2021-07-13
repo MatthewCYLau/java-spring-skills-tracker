@@ -9,32 +9,34 @@ import java.util.UUID;
 
 @Service
 public class SkillService {
-    private final SkillDataAccessService skillDataAccessService;
 
-    @Autowired
-    public SkillService(SkillDataAccessService skillDataAccessService) {
-        this.skillDataAccessService = skillDataAccessService;
-    }
+	private final SkillDataAccessService skillDataAccessService;
 
-    public List<Skill> getSkills() {
-        return skillDataAccessService.selectAllSkills();
-    }
+	@Autowired
+	public SkillService(SkillDataAccessService skillDataAccessService) {
+		this.skillDataAccessService = skillDataAccessService;
+	}
 
-    public Optional<Skill> getSkillById(UUID id) {
-        return skillDataAccessService.selectSkillById(id);
-    }
+	public List<Skill> getSkills() {
+		return skillDataAccessService.selectAllSkills();
+	}
 
-    void addSkill(Skill skill) {
-        addSkill(null, skill, false);
-    }
+	public Optional<Skill> getSkillById(UUID id) {
+		return skillDataAccessService.selectSkillById(id);
+	}
 
-    void addSkill(UUID id, Skill skill, Boolean isHotSkill) {
-        UUID newSkillId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+	void addSkill(Skill skill) {
+		addSkill(null, skill, false);
+	}
 
-        skillDataAccessService.insertSkill(newSkillId, skill, isHotSkill);
-    }
+	void addSkill(UUID id, Skill skill, Boolean isHotSkill) {
+		UUID newSkillId = Optional.ofNullable(id).orElse(UUID.randomUUID());
 
-    void deleteSkill(UUID id) {
-        skillDataAccessService.deleteSkillById(id);
-    }
+		skillDataAccessService.insertSkill(newSkillId, skill, isHotSkill);
+	}
+
+	void deleteSkill(UUID id) {
+		skillDataAccessService.deleteSkillById(id);
+	}
+
 }

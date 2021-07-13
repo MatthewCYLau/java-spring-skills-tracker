@@ -24,57 +24,52 @@ import java.util.stream.Collectors;
 
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private final SecretKey secretKey;
-    private final JwtConfig jwtConfig;
+	private final SecretKey secretKey;
 
-    public JwtTokenVerifier(SecretKey secretKey,
-                            JwtConfig jwtConfig) {
-        this.secretKey = secretKey;
-        this.jwtConfig = jwtConfig;
-    }
+	private final JwtConfig jwtConfig;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+	public JwtTokenVerifier(SecretKey secretKey, JwtConfig jwtConfig) {
+		this.secretKey = secretKey;
+		this.jwtConfig = jwtConfig;
+	}
 
-        String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
+		if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        try {
+		String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
 
-            Jws<Claims> claimsJws = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
+		try {
 
-            Claims body = claimsJws.getBody();
+			Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 
-            String username = body.getSubject();
+			Claims body = claimsJws.getBody();
 
-            var authorities = (List<Map<String, String>>) body.get("authorities");
+			String username = body.getSubject();
 
-            Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
-                    .map(m -> new SimpleGrantedAuthority(m.get("authority")))
-                    .collect(Collectors.toSet());
+			var authorities = (List<Map<String, String>>) body.get("authorities");
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,
-                    null,
-                    simpleGrantedAuthorities
-            );
+			Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
+					.map(m -> new SimpleGrantedAuthority(m.get("authority"))).collect(Collectors.toSet());
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
+					simpleGrantedAuthorities);
 
-        } catch (JwtException e) {
-            throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
-        }
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        filterChain.doFilter(request, response);
-    }
+		}
+		catch (JwtException e) {
+			throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
+		}
+
+		filterChain.doFilter(request, response);
+	}
+
 }

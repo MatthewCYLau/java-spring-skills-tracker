@@ -18,81 +18,56 @@ import static com.example.tracker.security.UserRole.BASIC_USER;
 @Repository("real")
 public class RealUserDaoService implements UserDao {
 
-    private final PasswordEncoder passwordEncoder;
-    private final JdbcTemplate jdbcTemplate;
+	private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public RealUserDaoService(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
-        this.passwordEncoder = passwordEncoder;
-        this.jdbcTemplate = jdbcTemplate;
-    }
+	private final JdbcTemplate jdbcTemplate;
 
-    @Override
-    public Optional<User> selectUserByUsername(String username) {
-        return selectAllUsers()
-                .stream()
-                .filter(user -> username.equals(user.getUsername()))
-                .findFirst();
-    }
+	@Autowired
+	public RealUserDaoService(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
+		this.passwordEncoder = passwordEncoder;
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
-    @Override
-    public List<User> selectAllUsers() {
+	@Override
+	public Optional<User> selectUserByUsername(String username) {
+		return selectAllUsers().stream().filter(user -> username.equals(user.getUsername())).findFirst();
+	}
 
-        String sql = "" +
-                "SELECT " +
-                " users.user_id, " +
-                " users.username, " +
-                " users.password, " +
-                " users.is_admin " +
-                "FROM users ";
-        return jdbcTemplate.query(
-                sql,
-                mapUserFromDb()
-        );
-    }
+	@Override
+	public List<User> selectAllUsers() {
 
-    private RowMapper<User> mapUserFromDb() {
-        return (resultSet, i) -> {
-            UUID userId =  UUID.fromString(resultSet.getString("user_id"));
-            String username = resultSet.getString("username");
-            String password = resultSet.getString("password");
-            Boolean isAdmin = resultSet.getBoolean("is_admin");
-            Set<? extends GrantedAuthority> grantedAuthorities = isAdmin ? ADMIN.getGrantedAuthorities() : BASIC_USER.getGrantedAuthorities();
-            return new User(
-                    userId, username,
-                    passwordEncoder.encode(password),
-                    isAdmin, grantedAuthorities,
-                    true,
-                    true,
-                    true,
-                    true
+		String sql = "" + "SELECT " + " users.user_id, " + " users.username, " + " users.password, "
+				+ " users.is_admin " + "FROM users ";
+		return jdbcTemplate.query(sql, mapUserFromDb());
+	}
 
-            );
-        };
-    }
+	private RowMapper<User> mapUserFromDb() {
+		return (resultSet, i) -> {
+			UUID userId = UUID.fromString(resultSet.getString("user_id"));
+			String username = resultSet.getString("username");
+			String password = resultSet.getString("password");
+			Boolean isAdmin = resultSet.getBoolean("is_admin");
+			Set<? extends GrantedAuthority> grantedAuthorities = isAdmin ? ADMIN.getGrantedAuthorities()
+					: BASIC_USER.getGrantedAuthorities();
+			return new User(userId, username, passwordEncoder.encode(password), isAdmin, grantedAuthorities, true, true,
+					true, true
 
-    @Override
-    public int insertUser(UUID id, User user) {
+			);
+		};
+	}
 
-        String sql = "" +
-                "INSERT INTO users (user_id, username, password, is_admin) " +
-                "VALUES (?, ?, ?, ?)";
+	@Override
+	public int insertUser(UUID id, User user) {
 
-        return jdbcTemplate.update(
-                sql,
-                id,
-                user.getUsername(),
-                user.getPassword(),
-                user.isAdmin()
-        );
-    }
+		String sql = "" + "INSERT INTO users (user_id, username, password, is_admin) " + "VALUES (?, ?, ?, ?)";
 
-    @Override
-    public int deleteUserById(UUID id) {
-        String sql = "" +
-                "DELETE FROM users " +
-                "WHERE user_id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
+		return jdbcTemplate.update(sql, id, user.getUsername(), user.getPassword(), user.isAdmin());
+	}
+
+	@Override
+	public int deleteUserById(UUID id) {
+		String sql = "" + "DELETE FROM users " + "WHERE user_id = ?";
+		return jdbcTemplate.update(sql, id);
+	}
 
 }

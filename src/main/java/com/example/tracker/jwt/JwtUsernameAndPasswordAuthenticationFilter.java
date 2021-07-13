@@ -19,53 +19,49 @@ import java.util.Date;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtConfig jwtConfig;
-    private final SecretKey secretKey;
+	private final AuthenticationManager authenticationManager;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-                                                      JwtConfig jwtConfig,
-                                                      SecretKey secretKey) {
-        this.authenticationManager = authenticationManager;
-        this.jwtConfig = jwtConfig;
-        this.secretKey = secretKey;
-    }
+	private final JwtConfig jwtConfig;
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) throws AuthenticationException {
+	private final SecretKey secretKey;
 
-        try {
-            UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
-                    .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
+	public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig,
+			SecretKey secretKey) {
+		this.authenticationManager = authenticationManager;
+		this.jwtConfig = jwtConfig;
+		this.secretKey = secretKey;
+	}
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(),
-                    authenticationRequest.getPassword()
-            );
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws AuthenticationException {
 
-            Authentication authenticate = authenticationManager.authenticate(authentication);
-            return authenticate;
+		try {
+			UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
+					.readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+			Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+					authenticationRequest.getPassword());
 
-    }
+			Authentication authenticate = authenticationManager.authenticate(authentication);
+			return authenticate;
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
-        String token = Jwts.builder()
-                .setSubject(authResult.getName())
-                .claim("authorities", authResult.getAuthorities())
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
-                .signWith(secretKey)
-                .compact();
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
-        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
-    }
+	}
+
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
+		String token = Jwts.builder().setSubject(authResult.getName()).claim("authorities", authResult.getAuthorities())
+				.setIssuedAt(new Date())
+				.setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
+				.signWith(secretKey).compact();
+
+		response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+	}
+
 }

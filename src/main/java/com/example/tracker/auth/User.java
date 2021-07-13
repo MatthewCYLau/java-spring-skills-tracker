@@ -9,74 +9,79 @@ import java.util.UUID;
 
 public class User implements UserDetails {
 
-    private final UUID id;
-    private final String username;
-    private final String password;
-    private final boolean isAdmin;
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
+	private final UUID id;
 
-    public User(UUID id, String username,
-                String password,
-                boolean isAdmin, Set<? extends GrantedAuthority> grantedAuthorities,
-                boolean isAccountNonExpired,
-                boolean isAccountNonLocked,
-                boolean isCredentialsNonExpired,
-                boolean isEnabled) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.isAdmin = isAdmin;
-        this.grantedAuthorities = grantedAuthorities;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
-    }
+	private final String username;
 
-    public UUID getId() {
-        return id;
-    }
+	private final String password;
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
+	private final boolean isAdmin;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
-    }
+	private final Set<? extends GrantedAuthority> grantedAuthorities;
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+	private final boolean isAccountNonExpired;
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+	private final boolean isAccountNonLocked;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
-    }
+	private final boolean isCredentialsNonExpired;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
-    }
+	private final boolean isEnabled;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
-    }
+	public User(UUID id, String username, String password, boolean isAdmin,
+			Set<? extends GrantedAuthority> grantedAuthorities, boolean isAccountNonExpired, boolean isAccountNonLocked,
+			boolean isCredentialsNonExpired, boolean isEnabled) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.isAdmin = isAdmin;
+		this.grantedAuthorities = grantedAuthorities;
+		this.isAccountNonExpired = isAccountNonExpired;
+		this.isAccountNonLocked = isAccountNonLocked;
+		this.isCredentialsNonExpired = isCredentialsNonExpired;
+		this.isEnabled = isEnabled;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
-    }
+	public UUID getId() {
+		return id;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return grantedAuthorities;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return isAccountNonExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return isAccountNonLocked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return isCredentialsNonExpired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
 }

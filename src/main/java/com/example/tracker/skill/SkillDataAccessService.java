@@ -12,80 +12,60 @@ import java.util.UUID;
 @Repository
 public class SkillDataAccessService implements SkillDao {
 
-    private final JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public SkillDataAccessService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+	@Autowired
+	public SkillDataAccessService(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
-    @Override
-    public List<Skill> selectAllSkills() {
+	@Override
+	public List<Skill> selectAllSkills() {
 
-        String sql = "" +
-                "SELECT skill_id, " +
-                "skill, " +
-                "is_hot_skill " +
-                "FROM skills";
+		String sql = "" + "SELECT skill_id, " + "skill, " + "is_hot_skill " + "FROM skills";
 
-        return jdbcTemplate.query(sql, mapSkillFromDb());
-    }
+		return jdbcTemplate.query(sql, mapSkillFromDb());
+	}
 
-    private RowMapper<Skill> mapSkillFromDb() {
-        return (resultSet, i) -> {
-            String idStr = resultSet.getString("skill_id");
-            UUID id = UUID.fromString(idStr);
+	private RowMapper<Skill> mapSkillFromDb() {
+		return (resultSet, i) -> {
+			String idStr = resultSet.getString("skill_id");
+			UUID id = UUID.fromString(idStr);
 
-            String skill = resultSet.getString("skill");
-            Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
+			String skill = resultSet.getString("skill");
+			Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
 
+			return new Skill(id, skill, isHotSkill);
+		};
+	}
 
-            return new Skill(
-                    id,
-                    skill,
-                    isHotSkill
-            );
-        };
-    }
+	@Override
+	public Optional<Skill> selectSkillById(UUID id) {
 
-    @Override
-    public Optional<Skill> selectSkillById(UUID id) {
+		final String sql = "SELECT skill_id, skill, is_hot_skill FROM skills WHERE skill_id = ?";
 
-        final String sql = "SELECT skill_id, skill, is_hot_skill FROM skills WHERE skill_id = ?";
+		Skill skill = jdbcTemplate.queryForObject(sql, new Object[] { id }, (resultSet, i) -> {
+			UUID skillId = UUID.fromString(resultSet.getString("skill_id"));
+			String skillName = resultSet.getString("skill");
+			Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
+			return new Skill(skillId, skillName, isHotSkill);
+		});
 
-        Skill skill = jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{id},
-                (resultSet, i) -> {
-                    UUID skillId = UUID.fromString(resultSet.getString("skill_id"));
-                    String skillName = resultSet.getString("skill");
-                    Boolean isHotSkill = resultSet.getBoolean("is_hot_skill");
-                    return new Skill(skillId, skillName, isHotSkill);
-                });
+		return Optional.ofNullable(skill);
+	}
 
-        return Optional.ofNullable(skill);
-    }
+	@Override
+	public int insertSkill(UUID id, Skill skill, Boolean is_hot_skill) {
 
-    @Override
-    public int insertSkill(UUID id, Skill skill, Boolean is_hot_skill) {
+		String sql = "" + "INSERT INTO skills (skill_id, skill, is_hot_skill) " + "VALUES (?, ?, ?)";
 
-        String sql = "" +
-                "INSERT INTO skills (skill_id, skill, is_hot_skill) " +
-                "VALUES (?, ?, ?)";
+		return jdbcTemplate.update(sql, id, skill.getSkill(), skill.getIsHotSkill());
+	}
 
-        return jdbcTemplate.update(
-                sql,
-                id,
-                skill.getSkill(),
-                skill.getIsHotSkill()
-        );
-    }
+	@Override
+	public int deleteSkillById(UUID id) {
+		String sql = "" + "DELETE FROM skills " + "WHERE skill_id = ?";
+		return jdbcTemplate.update(sql, id);
+	}
 
-    @Override
-    public int deleteSkillById(UUID id) {
-        String sql = "" +
-                "DELETE FROM skills " +
-                "WHERE skill_id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
 }

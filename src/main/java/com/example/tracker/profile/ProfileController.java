@@ -13,38 +13,38 @@ import java.util.UUID;
 @RequestMapping("api/v1/profiles")
 public class ProfileController {
 
-    private final ProfileService profileService;
+	private final ProfileService profileService;
 
-    @Autowired
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
+	@Autowired
+	public ProfileController(ProfileService profileService) {
+		this.profileService = profileService;
+	}
 
-    @GetMapping
-    public List<Profile> getProfiles() {
-        return profileService.getProfiles();
-    }
+	@GetMapping
+	public List<Profile> getProfiles() {
+		return profileService.getProfiles();
+	}
 
-    @PostMapping
-    public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
-        profileService.addProfile(profile);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
+	@PostMapping
+	public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
+		profileService.addProfile(profile);
+		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
 
-    @GetMapping(path = "{id}")
-    public Profile getProfileById(@PathVariable("id") UUID id) {
-        return profileService.getProfileById(id).orElse(null);
-    }
+	@GetMapping(path = "{id}")
+	public Profile getProfileById(@PathVariable("id") UUID id) {
+		return profileService.getProfileById(id).orElse(null);
+	}
 
-    @PatchMapping(path = "{id}")
-    public void updateProfile(@PathVariable("id") UUID id,
-                              @RequestBody Profile profile) {
-        profileService.updateProfile(id, profile);
-    }
+	@PatchMapping(path = "{id}")
+	public void updateProfile(@PathVariable("id") UUID id, @RequestBody Profile profile) {
+		profileService.updateProfile(id, profile);
+	}
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("{id}")
-    public void deleteProfile(@PathVariable("id") UUID id) {
-        profileService.deleteProfile(id);
-    }
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@DeleteMapping("{id}")
+	public void deleteProfile(@PathVariable("id") UUID id) {
+		profileService.deleteProfile(id);
+	}
+
 }

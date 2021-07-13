@@ -13,58 +13,41 @@ import java.util.UUID;
 @Repository
 public class AchievementDataAccessService implements AchievementDao {
 
-    private final JdbcTemplate jdbcTemplate;
-    private final ProfileService profileService;
-    private final SkillService skillService;
+	private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public AchievementDataAccessService(JdbcTemplate jdbcTemplate,
-                                        ProfileService profileService,
-                                        SkillService skillService) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.profileService = profileService;
-        this.skillService = skillService;
-    }
+	private final ProfileService profileService;
 
-    @Override
-    public List<Achievement> selectAllAchievements() {
+	private final SkillService skillService;
 
-        String sql = "" +
-                "SELECT " +
-                " achievements.achievement_id, " +
-                " profiles.profile_id, " +
-                " profiles.name, " +
-                " skills.skill_id " +
-                "FROM achievements " +
-                "JOIN profiles USING (profile_id) " +
-                "JOIN skills USING (skill_id) ";
-        return jdbcTemplate.query(
-                sql,
-                mapAchievementFromDb()
-        );
-    }
+	@Autowired
+	public AchievementDataAccessService(JdbcTemplate jdbcTemplate, ProfileService profileService,
+			SkillService skillService) {
+		this.jdbcTemplate = jdbcTemplate;
+		this.profileService = profileService;
+		this.skillService = skillService;
+	}
 
-    private RowMapper<Achievement> mapAchievementFromDb() {
-        return (resultSet, i) ->
-                new Achievement(
-                        UUID.fromString(resultSet.getString("achievement_id")),
-                        profileService.getProfileById(UUID.fromString(resultSet.getString("profile_id"))),
-                        skillService.getSkillById(UUID.fromString(resultSet.getString("skill_id")))
-                        );
-    }
+	@Override
+	public List<Achievement> selectAllAchievements() {
 
-    @Override
-    public int insertAchievement(UUID id, NewAchievement newAchievement) {
+		String sql = "" + "SELECT " + " achievements.achievement_id, " + " profiles.profile_id, " + " profiles.name, "
+				+ " skills.skill_id " + "FROM achievements " + "JOIN profiles USING (profile_id) "
+				+ "JOIN skills USING (skill_id) ";
+		return jdbcTemplate.query(sql, mapAchievementFromDb());
+	}
 
-        String sql = "" +
-                "INSERT INTO achievements (achievement_id, profile_id, skill_id) " +
-                "VALUES (?, ?, ?)";
+	private RowMapper<Achievement> mapAchievementFromDb() {
+		return (resultSet, i) -> new Achievement(UUID.fromString(resultSet.getString("achievement_id")),
+				profileService.getProfileById(UUID.fromString(resultSet.getString("profile_id"))),
+				skillService.getSkillById(UUID.fromString(resultSet.getString("skill_id"))));
+	}
 
-        return jdbcTemplate.update(
-                sql,
-                id,
-                newAchievement.getProfile_id(),
-                newAchievement.getSkill_id()
-        );
-    }
+	@Override
+	public int insertAchievement(UUID id, NewAchievement newAchievement) {
+
+		String sql = "" + "INSERT INTO achievements (achievement_id, profile_id, skill_id) " + "VALUES (?, ?, ?)";
+
+		return jdbcTemplate.update(sql, id, newAchievement.getProfile_id(), newAchievement.getSkill_id());
+	}
+
 }

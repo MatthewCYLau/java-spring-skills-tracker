@@ -1,6 +1,5 @@
 package com.example.tracker.auth;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,34 +14,34 @@ import java.util.UUID;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final UserDao userDao;
+	private final UserDao userDao;
 
-    @Autowired
-    public UserService(@Qualifier("real") UserDao userDao) {
-        this.userDao = userDao;
-    }
+	@Autowired
+	public UserService(@Qualifier("real") UserDao userDao) {
+		this.userDao = userDao;
+	}
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.selectUserByUsername(username)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(String.format("Username %s not found", username)));
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return userDao.selectUserByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
+	}
 
-    public List<User> getUsers() {
-        return userDao.selectAllUsers();
-    }
+	public List<User> getUsers() {
+		return userDao.selectAllUsers();
+	}
 
-    void addUser(User user) {
-        addUser(null, user);
-    }
+	void addUser(User user) {
+		addUser(null, user);
+	}
 
-    void addUser(UUID id, User user) {
-        UUID newUserId = Optional.ofNullable(id).orElse(UUID.randomUUID());
-        userDao.insertUser(newUserId, user);
-    }
+	void addUser(UUID id, User user) {
+		UUID newUserId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+		userDao.insertUser(newUserId, user);
+	}
 
-    void deleteUser(UUID id) {
-        userDao.deleteUserById(id);
-    }
+	void deleteUser(UUID id) {
+		userDao.deleteUserById(id);
+	}
+
 }

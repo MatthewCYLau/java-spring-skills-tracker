@@ -11,42 +11,41 @@ import java.util.UUID;
 @Service
 public class ProfileService {
 
-    private final ProfileDataAccessService profileDataAccessService;
+	private final ProfileDataAccessService profileDataAccessService;
 
-    @Autowired
-    public ProfileService(ProfileDataAccessService profileDataAccessService) {
-        this.profileDataAccessService = profileDataAccessService;
-    }
+	@Autowired
+	public ProfileService(ProfileDataAccessService profileDataAccessService) {
+		this.profileDataAccessService = profileDataAccessService;
+	}
 
-    public List<Profile> getProfiles() {
-        return profileDataAccessService.selectAllProfiles();
-    }
+	public List<Profile> getProfiles() {
+		return profileDataAccessService.selectAllProfiles();
+	}
 
-    public Optional<Profile> getProfileById(UUID id) {
-        return profileDataAccessService.selectProfileById(id);
-    }
+	public Optional<Profile> getProfileById(UUID id) {
+		return profileDataAccessService.selectProfileById(id);
+	}
 
-    void addProfile(Profile profile) {
-        addProfile(null, profile);
-    }
+	void addProfile(Profile profile) {
+		addProfile(null, profile);
+	}
 
-    void addProfile(UUID id, Profile profile) {
-        UUID newProfileId = Optional.ofNullable(id).orElse(UUID.randomUUID());
+	void addProfile(UUID id, Profile profile) {
+		UUID newProfileId = Optional.ofNullable(id).orElse(UUID.randomUUID());
 
-        profileDataAccessService.insertProfile(newProfileId, profile);
-    }
+		profileDataAccessService.insertProfile(newProfileId, profile);
+	}
 
-    public void updateProfile(UUID id, Profile profile) {
-        Optional.ofNullable(profile.getEmail())
-                .ifPresent(email -> {
-                    profileDataAccessService.updateEmail(id, email);
-                });
-        Optional.ofNullable(profile.getName())
-                .filter(name -> !StringUtils.isEmpty(name))
-                .ifPresent(name -> profileDataAccessService.updateName(id, name));
-    }
+	public void updateProfile(UUID id, Profile profile) {
+		Optional.ofNullable(profile.getEmail()).ifPresent(email -> {
+			profileDataAccessService.updateEmail(id, email);
+		});
+		Optional.ofNullable(profile.getName()).filter(name -> !StringUtils.isEmpty(name))
+				.ifPresent(name -> profileDataAccessService.updateName(id, name));
+	}
 
-    void deleteProfile(UUID id) {
-        profileDataAccessService.deleteProfileById(id);
-    }
+	void deleteProfile(UUID id) {
+		profileDataAccessService.deleteProfileById(id);
+	}
+
 }
