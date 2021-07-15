@@ -28,7 +28,7 @@ public class SkillService {
 
     private static Predicate<String> checkIfIsHotSkill = skill -> skill.length() > 5;
 
-    public static boolean publicCheckIfIsHotSkill(String skill) {
+    public static boolean checkIfIsHotSkillPublic(String skill) {
         return checkIfIsHotSkill.test(skill);
     }
 
