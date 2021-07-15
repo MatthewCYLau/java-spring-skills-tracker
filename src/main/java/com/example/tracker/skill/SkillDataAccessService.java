@@ -59,7 +59,7 @@ public class SkillDataAccessService implements SkillDao {
 
 		String sql = "" + "INSERT INTO skills (skill_id, skill, is_hot_skill) " + "VALUES (?, ?, ?)";
 
-		return jdbcTemplate.update(sql, id, skill.getSkill(), skill.getIsHotSkill());
+		return jdbcTemplate.update(sql, id, skill.getSkill(), is_hot_skill);
 	}
 
 	@Override
