@@ -1,4 +1,4 @@
-package com.example.tracker;
+package com.example.tracker.unit;
 
 import com.example.tracker.profile.ProfileController;
 import com.example.tracker.skill.SkillService;
@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class JavaSpringSkillsTrackerAppTests {
+class UnitTests {
 
     @Autowired
     private ProfileController controller;
