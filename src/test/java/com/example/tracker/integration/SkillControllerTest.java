@@ -41,6 +41,6 @@ class SkillControllerTest {
 
     @Test
     public void shouldReturnSkillsFromService() throws Exception {
-        assertEquals(skillService.getSkills(), "foo");
+        assertEquals(skillService.getSkills().size(), 6);
     }
 }
