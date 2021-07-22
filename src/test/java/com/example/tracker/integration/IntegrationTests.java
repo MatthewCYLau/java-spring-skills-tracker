@@ -1,36 +1,30 @@
 package com.example.tracker.integration;
 
-import com.example.tracker.profile.ProfileController;
-import com.example.tracker.skill.SkillService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class IntegrationTests {
 
     @Autowired
-    private ProfileController controller;
-    private SkillService skillService;
-
+    private MockMvc mockMvc;
 
     @Test
-    public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
-    }
-
-    @Test
-    public void exampleTest() {
-        assertEquals("foo", "foo");
+    public void shouldReturnUsers() throws Exception {
+        this.mockMvc.perform(get("/api/v1/users")).andDo(print()).andExpect(status().isOk());
     }
 
 
-    @Test
-    public void testIsHotSkill() {
-        assertEquals(skillService.checkIfIsHotSkillPublic("foo"), false);
-        assertEquals(skillService.checkIfIsHotSkillPublic("baaaaar"), true);
-    }
+
+
 }
