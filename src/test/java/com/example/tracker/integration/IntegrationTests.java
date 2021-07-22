@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -21,10 +20,6 @@ public class IntegrationTests {
 
     @Test
     public void shouldReturnUsers() throws Exception {
-        this.mockMvc.perform(get("/api/v1/users")).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(get("/api/v1/users")).andExpect(status().isOk());
     }
-
-
-
-
 }

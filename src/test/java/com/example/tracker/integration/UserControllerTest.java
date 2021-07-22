@@ -1,7 +1,7 @@
 package com.example.tracker.integration;
 
-import com.example.tracker.skill.SkillController;
-import com.example.tracker.skill.SkillService;
+import com.example.tracker.auth.UserController;
+import com.example.tracker.auth.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,19 +14,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ContextConfiguration(classes = PasswordEncoder.class)
-@WebMvcTest(SkillController.class)
-class SkillControllerTest {
+@WebMvcTest(UserController.class)
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private SkillService skillService;
+    private UserService userService;
 
-//    returns 401 for unsecurted ULRs
-//    see https://stackoverflow.com/questions/39554285/spring-test-returning-401-for-unsecured-urls
     @Test
-    public void shouldReturnSkills() throws Exception {
-        this.mockMvc.perform(get("/api/v1/skills")).andExpect(status().is4xxClientError());
+    public void shouldReturnUsers() throws Exception {
+        this.mockMvc.perform(get("/api/v1/users")).andExpect(status().is4xxClientError());
     }
+
 }
