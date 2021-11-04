@@ -9,7 +9,7 @@ spring:
     active: @spring.profiles.active@
 
 server:
-  port: 5000
+  port: 8080
 
 app:
   datasource:
