@@ -40,3 +40,10 @@ postgres-data
 
 # Docker
 .docker.env
+
+.terraform
+.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*

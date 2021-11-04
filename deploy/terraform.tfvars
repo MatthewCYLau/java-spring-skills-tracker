@@ -1,0 +1,5 @@
+project              = "react-gke-terraform"
+project_name         = "react-gke-terraform"
+credentials_filepath = "/Users/matthewlau/gcp-creds/react-gke-terraform-sa-key.json"
+region               = "europe-west2"
+zone                 = "europe-west2-a"
