@@ -37,3 +37,6 @@ postgres-data
 ######################
 .DS_Store
 .DS_Store?
+
+# Docker
+.docker.env

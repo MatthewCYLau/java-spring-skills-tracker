@@ -1,6 +1,6 @@
 application:
   jwt:
-    secretKey: securetextisverylongsecuretextisverylongsecuretextisverylongsecuretextisverylong
+    secretKey: ${JWT_SECRET}
     tokenPrefix: 'Bearer '
     tokenExpirationAfterDays: 14
 
@@ -13,7 +13,7 @@ server:
 
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://skillsdb2.c3bji2qrl6dz.us-east-1.rds.amazonaws.com:5432/skillsdb2
-    username: skillsdb2
-    password: password
+    jdbc-url: ${POSTGRESQL_URL}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
     pool-size: 30
