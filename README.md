@@ -1,8 +1,8 @@
 # Java Spring Skills Tracker
 
-A reference project to deploy a Java Spring app onto AWS Elastic Beanstalk
+A reference project to deploy a containerised Java Spring app onto [GCP Cloud Run](https://cloud.google.com/run)
 
-An app to track users, their skillz and achievements
+An app to track users, their skills and achievements
 
 ## Run/Build Locally
 
@@ -27,6 +27,26 @@ An app to track users, their skillz and achievements
 - See Postman collection [here](https://www.getpostman.com/collections/b8d3e24049479e11bdbd)
 
 ## Deploy to GCP Cloud Run
+
+- Populate the variables in `terraform.tfvars`
+
+```
+project                = <GCP-PROJECT-ID>
+credentials_filepath   = <PATH-TO-GCP-SERVICE-ACCOUNT>
+bucket_name            = <STATIC-SITE-BUCKET-NAME>
+# and other variables
+```
+
+- Create GCP resources with Terraform:
+
+```
+cd deploy # change to deploy directory
+terraform init # initialises Terraform
+terraform apply # deploys GCP stack
+terraform destroy # destroys GCP stack
+```
+
+- Build, and push Docker image to [Container Registry](https://cloud.google.com/container-registry). Then, deploy to [Cloud Run](https://cloud.google.com/run):
 
 ```
 docker build -t gcr.io/<your_gcp_project_id>/java-spring-skills-tracker .
