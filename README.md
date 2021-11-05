@@ -54,7 +54,7 @@ docker push gcr.io/<your_gcp_project_id>/java-spring-skills-tracker:latest
 gcloud run deploy --image=gcr.io/<your_gcp_project_id>/java-spring-skills-tracker:latest --update-env-vars POSTGRESQL_URL=jdbc:postgresql://<CLOUD-SQL-PUBLIC-IP>:5432/skillsdb,POSTGRESQL_USERNAME=postgres
 ```
 
-- Then, on Cloud Run console, update `POSTGRESQL_PASSWORD`, and `JWT_SECRET` as secured environment variables. Re-deploy Cloud Run service
+- Then on Cloud Run console, update `POSTGRESQL_PASSWORD`, and `JWT_SECRET` as secured environment variables. Re-deploy Cloud Run service
 
 ## Contributing
 
