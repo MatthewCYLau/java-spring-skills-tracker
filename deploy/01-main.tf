@@ -2,12 +2,10 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "3.90.0"
+      version = "4.56.0"
     }
   }
-}
 
-terraform {
   backend "gcs" {
     bucket = "java-spring-skills-tracker-tf-state"
     prefix = "terraform/state"
@@ -15,9 +13,7 @@ terraform {
 }
 
 provider "google" {
-
-  credentials = file(var.credentials_filepath)
-  region      = var.region
-  zone        = var.zone
-  project     = var.project
+  project = var.project
+  region  = var.region
+  zone    = var.zone
 }

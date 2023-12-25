@@ -1,5 +1,5 @@
 resource "google_sql_database_instance" "db_instance" {
-  name   = "java-apps-cloud-sql-db-instance"
+  name   = "${var.application_name}-db-instance"
   region = var.region
 
   settings {
