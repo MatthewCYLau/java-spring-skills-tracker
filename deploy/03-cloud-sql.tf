@@ -6,7 +6,7 @@ resource "google_sql_database_instance" "db_instance" {
     tier              = "db-f1-micro"
     availability_type = "ZONAL"
     user_labels = {
-      "environment" : "production"
+      "app" : var.application_name
     }
 
     ip_configuration {

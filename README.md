@@ -31,9 +31,9 @@ An app to track users, their skills and achievements
 - Populate the variables in `terraform.tfvars`
 
 ```
-project                = <GCP-PROJECT-ID>
-credentials_filepath   = <PATH-TO-GCP-SERVICE-ACCOUNT>
-bucket_name            = <STATIC-SITE-BUCKET-NAME>
+region           = "europe-west1"
+zone             = "europe-west1-a"
+project          = "open-source-apps-001"
 # and other variables
 ```
 
